@@ -21,6 +21,7 @@ interface AccountViewProps {
 
 
 export default function Component({ user, onMessage }: AccountViewProps) {
+  // Podglad profilu użytkownika
   const [isVisible, setIsVisible] = useState(false)
   const {setIsThisWindow} = useIsThisWindow()
 

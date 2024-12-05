@@ -26,6 +26,7 @@ export default function CourseCard({ title, description, price, imageUrl,status,
     status: string
     user?:user
   }) {
+    // Component kursu
     const [isExpanded, setIsExpanded] = useState(false)
     const router = useRouter()
     const {setCartItemsCount} = useCartItemsCount();

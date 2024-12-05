@@ -73,6 +73,7 @@ function RightBar(){
         </>
 }
 export default function AnimatedSidebar() {
+  // prawy panel z widokiem konta
   const {state, setState} = useNavPosition()
   const {cookiesCrated} = useCookiesSet()
   

@@ -6,10 +6,12 @@ interface Data {
   phoneNumber: string;
   image: string;
 };
+// zapisanie danych użytkownika
 export function saveCookies(data:Data){
   Cookies.set("user",JSON.stringify(data),{expires:365})
   return true
 }
+// zwrócenie danych użytkownika
 export function getCookies(){
   const data = Cookies.get("user");
   if(data){
@@ -17,16 +19,18 @@ export function getCookies(){
   }
   return null
 }
+// usuwanie użytkownika
 export function removeCookie(){
   Cookies.remove("user")
 }
+
 interface Cart {
   id: string;
   title: string;
   price: number;
   image: string;
 }
-
+// pobranie obecnego koszyka dla danego id użytkownika
 export function getCart(userID: string): Cart[] {
   const data = Cookies.get("cart");
   if (data) {
@@ -35,11 +39,11 @@ export function getCart(userID: string): Cart[] {
   }
   return [];
 }
-
+// sprawdzajaca czy koszyk zawiera juz dany kurs
 function ifIncludes(data: Cart[], dataToCheck: Cart): boolean {
   return data.some((item: Cart) => item.id === dataToCheck.id);
 }
-
+// dodawanie rzeczy do koszyka i zmiana ilosci
 export function addToCart(
   userID: string,
   data: Cart,
@@ -70,9 +74,11 @@ export function addToCart(
 
   console.log("Item added to cart:", data);
 }
+// usuniecie koszyka
 export function removeCart(){
   Cookies.remove("cart")
 }
+// usuniecie poszegolnych rzeczy z koszyka i zmiana ilosci
 export function removeItemFromCart(
   userID: string,
   itemId: string,

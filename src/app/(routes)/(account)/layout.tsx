@@ -21,6 +21,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
   const router = useRouter()
   const user = getCookies()
   const {isLoading,setIsLoading} = useIsLoading()
+  // funkcja wylogowywujaca użytkownika
   async function logOut(){
     setIsLoading(true)
     try{
@@ -39,6 +40,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
       setIsLoading(false)
     }
   }
+  // funkcja przekierowywujaca niezalogowanych użytkownikow
   useEffect(()=>{
     setIsLoading(false)
     if (user === null) {

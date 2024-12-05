@@ -45,7 +45,7 @@ export default function MessagesPage() {
   const currentChatId = useRef('')
   const user = getCookies()
   const searchRef = useRef<HTMLDivElement>(null)
-
+  // pobranie ostatnich ludzi z ktorymi użytkownik pisał
   useEffect(() => {
     setIsLoading(false)
     handleGetLastMessages()
@@ -59,6 +59,7 @@ export default function MessagesPage() {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
+  // funkcja pobierająca ostatnie wiadomości
   const handleGetLastMessages = async () => {
     const request = await fetch("http://localhost:8000/api/getLastMessages",{
       method:"POST",
@@ -70,8 +71,8 @@ export default function MessagesPage() {
     const data = await request.json()
     setChats(data)
   }
+  // generowanie losowego id dla nowych chatów
   const generateRandomCode = () => {
-    // Generate a 16-character random code
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     const codeLength = 16;
     let randomCode = "";
@@ -80,6 +81,7 @@ export default function MessagesPage() {
     }
     return randomCode;
   };
+  // wyszukiwanie użytkowników
   const handleSearch =async (term: string) => {
     setSearchTerm(term)
     try{
@@ -98,7 +100,7 @@ export default function MessagesPage() {
     }
    
   }
-
+  // otwieranie nowego chatu
   const handleAddChat = (user: User) => {
     const existingChat = chats.find((chat) => chat.userID === user.ID);
     if (existingChat) {
@@ -126,11 +128,12 @@ export default function MessagesPage() {
     setSearchResults([]);
     setSearchTerm("");
   };
-
+// usuwanie chatu z ostatnich
   const handleDeleteChat = (id:string) => {
     if(!chats) return
     setChats(chats.filter(chat => chat.chatId !== id))
   }
+  // pobieranie wiadomosci dla danego chatu
   const handleRetrieveChat = async (chatID:string,chat:Chat) => {
     setSelectedChat(chat)
     currentChatId.current = chatID
@@ -150,6 +153,7 @@ export default function MessagesPage() {
     }
     setMessages(arr)
   }
+  // zapisywanie wysłanej wiadomości
   const handleSendMessage = async () => {
     setIsLoading(true)
     try{
@@ -167,14 +171,14 @@ export default function MessagesPage() {
       console.log(err)
     }
   }
-
+  // wybor obecnego konta z ktorym sie pisze
   const toggleAccountView = (user: Chat| null) => {
     setSelectedUser(user)
   }
 
   return (
     <div className="flex h-full bg-gray-900 text-white p-0 m-0">
-      {/* Left panel - Chat list */}
+      {/* Lewy panel lista wiadomosci */}
       <div className="w-1/4  border-r border-gray-700 flex flex-col">
         <div className="p-4" ref={searchRef}>
           <div className="relative">
@@ -224,13 +228,12 @@ export default function MessagesPage() {
         </ScrollArea>
       </div>
 
-      {/* Right panel - Conversation */}
+      {/* Prawy panel - chat */}
       <div className="flex-1 flex flex-col">
-        {/* Conversation header */}
+        {/* Info o chacie */}
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
           <div className="flex items-center">
             <RenderImage src={selectedChat?.avatar}  width="40px" height="40px" />
-              {/* onClick={() => toggleAccountView(selectedChat)} */}
             <h2 className="ml-3 font-semibold">{selectedChat?.personRecieving}</h2>
           </div>
           <div className="flex space-x-2">
@@ -243,7 +246,7 @@ export default function MessagesPage() {
           </div>
         </div>
 
-        {/* Messages */}
+        {/* Wiadomości */}
         <ScrollArea className="flex-grow p-4">
           {messages.map((message) => (
             <div
@@ -261,7 +264,7 @@ export default function MessagesPage() {
           ))}
         </ScrollArea>
 
-        {/* Message input */}
+        {/* wysyłanie wiadomosci */}
         <div className="p-4 border-t border-gray-700 flex items-end">
           <Textarea
             placeholder="Type a message..."

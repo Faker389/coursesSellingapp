@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 
 export default function CourseCardSkeleton(){
-
+  // Szkielet ładującego sie componentu
     return<Card className="bg-gray-800 border-gray-700">
       <Skeleton className="w-full h-48 bg-gray-700" />
       <CardHeader>

@@ -8,6 +8,7 @@ interface ImageWithFallbackProps {
   }
   
 const RenderImage: React.FC<ImageWithFallbackProps> = ({src,width,height})=>{
+  // component renderujacy zdjecie w razie niepoprawnego src
     const defaultFallbackStyle: React.CSSProperties = {
         width: width,
         height: height,

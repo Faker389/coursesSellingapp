@@ -47,6 +47,7 @@ const STATUS_CONTENT_MAP = {
 }
 
 export default function PaymentPageComponent({ dpmCheckerLink, courseID  }: { dpmCheckerLink?: string, courseID?: string }) {
+  // Strona obsługujaca płatności
   const stripe = useStripe()
   const elements = useElements()
   const router = useRouter()
@@ -56,6 +57,7 @@ export default function PaymentPageComponent({ dpmCheckerLink, courseID  }: { dp
   const [status, setStatus] = useState<keyof typeof STATUS_CONTENT_MAP>("default")
   const [intentId, setIntentId] = useState<string | null>(null)
   const [cartItems, setCartItems] = useState<CartItem[]>([])
+  // pobieranie przedmiotu do płatności
   useEffect(()=>{
     async function fetchPaymentIntent(){
         const request = await fetch("http://localhost:8000/api/getItem", {
@@ -70,6 +72,7 @@ export default function PaymentPageComponent({ dpmCheckerLink, courseID  }: { dp
       setCartItems(Object.values(getCart(user!.ID)))
     }else fetchPaymentIntent()
   },[])
+  // tworzenie okna i wszystkich prametrów płatności
   useEffect(() => {
     if (!stripe) return
 
@@ -89,7 +92,7 @@ export default function PaymentPageComponent({ dpmCheckerLink, courseID  }: { dp
       setIntentId(paymentIntent.id)
     })
   }, [stripe])
-
+// funkcja obslugujaca płatność
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 

@@ -15,7 +15,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { useRouter } from 'next/navigation'
 import { getCookies } from '@/app/(cookies)/cookies'
 import CourseCard from '@/app/componentsPage/courseCard'
 interface CourseData {
@@ -31,12 +30,6 @@ interface CourseData {
 
 const AddCourseCard = () => {
   const user = getCookies()
-  const router = useRouter()
-  useEffect(() => {
-    if (!user) {
-      router.push("/login")
-    }
-  }, [user, router])
 
   const [isOpen, setIsOpen] = useState(false)
   const [courses, setCourses] = useState<CourseData[]>([])
@@ -50,6 +43,7 @@ const AddCourseCard = () => {
     category: "",
     courseID:""
   })
+  // pobranie kursow dla danego użytkownika
   useEffect(()=>{
     async function fetchCourses(){
       const response = await fetch("http://localhost:8000/api/getCourse",{
@@ -64,13 +58,16 @@ const AddCourseCard = () => {
     }
     fetchCourses()
   },[])
+  // update pól
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setCourseData(prev => ({ ...prev, [name]: value }))
   }
+  // update selecta
   const handleSelectChange = (value:string) => {
     setCourseData(prev => ({ ...prev, category: value }))
   }
+  // dodanie kursu dla użytkownika do bazy danych
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
     setIsOpen(false)
@@ -119,6 +116,7 @@ const AddCourseCard = () => {
                   title={course.title}
                   description={course.description}
                   price={course.price}
+                  user={user}
                   imageUrl={course.image}
                 />
               ))}

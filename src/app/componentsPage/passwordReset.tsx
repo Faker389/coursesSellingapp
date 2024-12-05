@@ -19,8 +19,10 @@ const PasswordResetSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email address").required("Email is required"),
 })
 const PasswordResetPage:React.FC<ChildComponentProps> =({closeWindow})=> {
+  // component z strona do zmiany hasła
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState(false)
+  // funkcja updatujaca hasło w bazie
   const handleSubmit = async (values:emailInterface) => {
     const email = values.email
     setIsSubmitted(false)

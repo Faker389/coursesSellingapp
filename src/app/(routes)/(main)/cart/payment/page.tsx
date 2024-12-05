@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { getCookies } from "../../../../(cookies)/cookies";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { loadStripe, Appearance } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import PaymentPageComponent from "../../../../componentsPage/paymentPage";
@@ -17,8 +17,8 @@ function PaymentPageContent() {
   const [clientSecret, setClientSecret] = React.useState<string>("");
   const [dpmCheckerLink, setDpmCheckerLink] = React.useState<string>("");
   const router = useRouter();
-
-  React.useEffect(() => {
+// pobranie danych dotyczacych platnosci
+  useEffect(() => {
     async function fetchPaymentIntent() {
       const request = await fetch("http://localhost:8000/api/payment", {
         method: "POST",
@@ -36,7 +36,7 @@ function PaymentPageContent() {
     if (userObject === null) router.push("/login");
     else fetchPaymentIntent();
   }, []);
-
+// style do okienka z zakupami
   const appearance: Appearance = {
     theme: "flat",
     variables: {
@@ -79,7 +79,7 @@ function PaymentPageContent() {
       },
     },
   };
-
+// bład w razie niepoprawnego klucza
   if (!clientSecret) {
     return (
       <div className="h-screen w-full overflow-hidden bg-gray-800">

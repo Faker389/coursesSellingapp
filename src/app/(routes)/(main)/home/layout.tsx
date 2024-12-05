@@ -25,12 +25,14 @@ export default function RootLayout({
       "Historia"
     ]
     const {cartItemsCount} = useCartItemsCount();
+    // globalne stany
     const {setCart} = useCartPosition();
     const {setState} = useNavPosition();
     const {setKeyWord} = useMainRender()
     const {setPriceFrom} = usePriceFrom()
     const {setPriceTo} = usePriceTo()
     const {setSearchTerm} = useSearchTerm()
+    // filtorowanie po cenach kursow
     const handlePrices = (e:React.ChangeEvent<HTMLInputElement>,which:string)=>{
       if(e.target.value=="") {
         if(which=="from") setPriceFrom(0)
@@ -40,6 +42,7 @@ export default function RootLayout({
       if(which=="from") setPriceFrom(parseFloat(e.target.value))
       else setPriceTo(parseFloat(e.target.value))
     }
+    // zapisywanie obecnie wyszukiwanego slowa
     const handleValueChange = (value: string) => {
       setKeyWord(value)
     };

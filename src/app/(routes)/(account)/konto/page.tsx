@@ -22,7 +22,7 @@ export default function KontoPage() {
     const [isLoading,setIsLoading]=useState(false)
     const userCoookie = getCookies() as user
     const [user, setUser] = useState<user>(userCoookie)
-   
+  //  zmiana zdjecia avatara
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader()
@@ -34,6 +34,7 @@ export default function KontoPage() {
       reader.readAsDataURL(e.target.files[0])
     }
   }
+  // update danych w baize
   async function updateUserData(){
     setIsLoading(true)
     setError(false)
@@ -117,6 +118,7 @@ export default function KontoPage() {
               'Zapisz zmiany'
             )}
         </Button>
+        {/* Pomyslny update danych */}
       {isSubmitted && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -130,6 +132,7 @@ export default function KontoPage() {
             </Alert>
           </motion.div>
         )}
+        {/* Błedy */}
       {error&&(
              <motion.div
              initial={{ opacity: 0, y: 20 }}

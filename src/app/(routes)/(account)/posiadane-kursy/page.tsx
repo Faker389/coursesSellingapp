@@ -19,8 +19,8 @@ export default function PosiadaneKursyPage() {
   const user = getCookies()
   const [courses,setCourses] = useState<course[]>([])
   const {isLoading,setIsLoading} = useIsLoading()
+  // pobranie wszystkich kursow dla użytkownika
   useEffect(()=>{
-    console.log(user.ID)
     async function getCourses(){
     try{
         setIsLoading(true)
@@ -57,6 +57,7 @@ export default function PosiadaneKursyPage() {
                   description={course.description}
                   price={course.price}
                   imageUrl={course.image}
+                  user={user}
                 />
               ))
           }

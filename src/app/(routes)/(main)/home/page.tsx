@@ -32,12 +32,13 @@ export default function Home() {
   const user = getCookies()
 
   if(!user) setCookiesCrated(false)
-  const usedEmails = useRef<string[]>([])
+    const usedEmails = useRef<string[]>([])
+  //  globalne stany 
   const {keyWord} = useMainRender()
   const {searchTerm} = useSearchTerm()
   const {priceFrom} = usePriceFrom()
   const {priceTo} = usePriceTo()
-  
+  // funkcja pobierajaca wszystkie maile użytkownikow do wyszukiwania
   async function fetchUsedEmails(){
     const request = await fetch("http://localhost:8000/api/usedEmails",{
       method:"Get",
@@ -75,6 +76,7 @@ export default function Home() {
    
   }, [])
 
+  // filtrowanie kursow
   useEffect(() => {
     const filtered = allCourses.current.filter((course) => {
       if(keyWord=="Pokaż wszystkie") return course;

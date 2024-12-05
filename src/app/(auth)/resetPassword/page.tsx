@@ -21,6 +21,7 @@ interface passwordsSchema{
     password:string;
     confirmPassword:string;
 }
+// Objekt walidujący dane z formularza
 const PasswordSchema = Yup.object().shape({
     password: Yup.string()
     .min(8, "Password must be at least 8 characters")
@@ -34,9 +35,11 @@ const PasswordSchema = Yup.object().shape({
 function SuspensePasswordReset() {
     const router = useRouter()
     const searchParams = useSearchParams();
+    // globalne stany dotyczace bledow
     const {isLoading,setIsLoading} = useIsLoading()
     const {error,setError} = useError()
     const {isSubmitted,setIsSubmitted} = useIsSubmitted()
+
     const [showPassword, setShowPassword] = useState(false)
     const [oobCode,setOobCode]=useState<string>("")
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -44,9 +47,9 @@ function SuspensePasswordReset() {
     useEffect(()=>{
       clearStates()
     },[])
+    // sprawdzanie czy w url kod oob jest prawidłowy
     useEffect(() => {
       const code = searchParams.get('oobCode');
-      console.log(code)
       if (code) {
       setOobCode(code)
       const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
@@ -59,6 +62,7 @@ function SuspensePasswordReset() {
       }
     }, [searchParams]);
   
+    // sprawdzenie czy hasło zostało poprawnie zmienione
     const handleSubmit = async (values:passwordsSchema) => {
       setError(false)
       setIsLoading(true)
@@ -78,6 +82,7 @@ function SuspensePasswordReset() {
     }
 
   }
+  //zmiana widoczności hasła
   const togglePasswordVisibility = (field:string) => {
     if (field === 'password') {
       setShowPassword(!showPassword)
@@ -176,6 +181,7 @@ function SuspensePasswordReset() {
           </Formik>
         </CardContent>
       </Card>
+      {/* Pomyślne zmienienie hasło */}
       {isSubmitted && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -189,6 +195,7 @@ function SuspensePasswordReset() {
             </Alert>
           </motion.div>
         )}
+      {/* Wyswietlanie błędów */}
       {error&&(
              <motion.div
              initial={{ opacity: 0, y: 20 }}

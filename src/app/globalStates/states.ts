@@ -1,5 +1,6 @@
 import {create} from 'zustand';
 
+// stany dotyczace błedów i ikonek łądowania
 interface isLoadingInterface {
     isLoading: boolean;
     setIsLoading: (newState: boolean) => void;
@@ -39,7 +40,7 @@ export const useIsSubmitted = create<isSubmittedInterface>((set) => ({
   isSubmitted: false,
   setIsSubmitted: (newState) => set({ isSubmitted: newState }),
 }));
-
+// czysczenie wszystkich stanow
 export const clearStates = () => {
   useIsLoading.getState().setIsLoading(false)
   useError.getState().setError(false)
@@ -47,7 +48,6 @@ export const clearStates = () => {
   useIsSubmitted.getState().setIsSubmitted(false)
 
 }
-
 interface GlobalState {
   keyWord: string;
   setKeyWord: (newState: string) => void;
@@ -57,7 +57,7 @@ export const useMainRender = create<GlobalState>((set) => ({
   keyWord: "",
   setKeyWord: (newState) => set({ keyWord: newState }),
 }));
-
+// stan dotyczacy minimalna cene wyszukiwanego kursu
 interface PriceFromState {
     priceFrom: number;
     setPriceFrom: (newState: number) => void;
@@ -67,6 +67,7 @@ interface PriceFromState {
     priceFrom: 0,
     setPriceFrom: (newState) => set({ priceFrom: newState }),
   }));
+// stan dotyczacy maksymalna cene wyszukiwanego kursu
   interface PriceToState {
     priceTo: number;
     setPriceTo: (newState: number) => void;
@@ -76,7 +77,7 @@ interface PriceFromState {
     priceTo: 0,
     setPriceTo: (newState) => set({ priceTo: newState }),
   }));
-
+// stan dotyczacy wyszukiwanych słow 
   interface searchTerm {
     searchTerm: string;
     setSearchTerm: (newState: string) => void;
@@ -86,7 +87,7 @@ interface PriceFromState {
     searchTerm: "",
     setSearchTerm: (newState) => set({ searchTerm: newState }),
   }));
-
+  // stan dotyczacy okna w ktorym sie znajdujesz 
   interface isThisWindow {
     isThisWindow: string;
     setIsThisWindow: (newState: string) => void;
@@ -97,7 +98,7 @@ interface PriceFromState {
     setIsThisWindow: (newState) => {set({ isThisWindow: newState })},
   }));
 
-
+// zapisywanie ciasteczek
   interface globalCookies {
     cookiesCrated: boolean;
     setCookiesCrated: (cookiesCrated: boolean) => void;
@@ -108,7 +109,7 @@ interface PriceFromState {
     setCookiesCrated: (newState) => set({ cookiesCrated: newState }),
   }));
   
-
+// stan używany do wysuwania prawego panelu
   interface useNavpos {
     state: boolean;
     setState: (newState: boolean) => void;
@@ -119,6 +120,8 @@ interface PriceFromState {
     setState: (newState) => set({ state: newState }),
   }));
   
+
+// stan używany do wysuwania koszyka
   
   interface useCartPosition {
     cart: boolean;
@@ -130,6 +133,7 @@ interface PriceFromState {
     setCart: (newState) => set({ cart: newState }),
   }));
   
+  // sledzenie liczby rzeczy w koszyku
   
   interface cartItemsCount {
     cartItemsCount: number;

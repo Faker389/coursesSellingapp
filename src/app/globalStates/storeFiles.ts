@@ -11,7 +11,7 @@ const database = getDatabase(app);
 interface FileWithPreview extends File {
   preview?: string;
 }
-
+// zapisywanie plików w bazie
 export const handleFileUpload = async (files:FileWithPreview[]) => {
     if (!files||!files.length) return;
 

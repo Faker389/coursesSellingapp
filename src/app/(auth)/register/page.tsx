@@ -18,7 +18,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth,signInWithPopup,GoogleAuthProvider } from "firebase/auth";
 import { useCookiesSet } from '@/app/globalStates/states';
 import { useIsLoading,useError,useErrorMessage,clearStates } from '@/app/globalStates/states';
-
+// Objekt walidujący dane z formularza
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Email is required"),
   name:Yup.string().min(5,"Name must be at least 5 characters"),
@@ -35,9 +35,11 @@ export default function Component() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const usedEmails = useRef<string[]>([])
+  // globalne stany dotyczace bledow
   const {error,setError} = useError()
   const {errorMessage,setErrorMessage} = useErrorMessage()
   const {isLoading,setIsLoading} = useIsLoading()
+
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const {setCookiesCrated} = useCookiesSet()
@@ -47,8 +49,8 @@ export default function Component() {
     projectId: "zdajmyto-3ea9b",
   
   };
+  // inicjalizacja Firebase
   const app = initializeApp(firebaseConfig);
-
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
@@ -58,7 +60,8 @@ export default function Component() {
     validationSchema: validationSchema,
     onSubmit: () => {}});
     useEffect(()=>{
-    clearStates()
+      // funkcja pobierajaca maile aby nie mozna bylo twożyć 2 razy konta na tego samego maila
+      clearStates()
     async function fetchUsedEmails(){
       const request = await fetch("http://localhost:8000/api/usedEmails",{
         method:"Get",
@@ -71,14 +74,12 @@ export default function Component() {
   }
   fetchUsedEmails()
   },[])
-
+  // Rejestracja przy użyciu google 
   async function googleSignIn(){
     try {
-      // Step 1: Log in using Firebase Google OAuth
       const result = await signInWithPopup(auth, provider);
-      const idToken = await result.user.getIdToken(); // Retrieve ID token
+      const idToken = await result.user.getIdToken(); 
       console.log(idToken)
-      // Step 2: Send the ID token to the backend for verification and syncing
       const response = await fetch("http://localhost:8000/api/google", {
           method: "POST",
           headers: {
@@ -89,7 +90,6 @@ export default function Component() {
 
       const data = await response.json();
 
-      // Step 3: Handle the backend response
       if (response.ok) {
           saveCookies(data)
           setCookiesCrated(true)
@@ -102,10 +102,9 @@ export default function Component() {
     console.log(error)
     setErrorMessage("Google login failed: ")
     setError(true)
-
   }
   }
-
+  // walidacja i zarejestrowanie użytkownika
   async function fetchData(){
     if(usedEmails.current.includes(formik.values.email.toLowerCase())){
       setErrorMessage("Email already in use")
@@ -141,6 +140,7 @@ export default function Component() {
       setIsLoading(false)
     }
   }
+  // wyświetlanie i chowanie hasła
   const togglePasswordVisibility = (field:string) => {
     if (field === 'password') {
       setShowPassword(!showPassword)

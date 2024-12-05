@@ -22,6 +22,7 @@ function CoursePage(){
   const searchParams = useSearchParams();
   const productID = searchParams.get("productId") as string;
   const [product,setProduct]=useState<Course>()
+  // pobieranie danego produktu dla podstrony
   useEffect(()=>{
       async function fetchPaymentIntent(){
           const request = await fetch("http://localhost:8000/api/getItem", {
@@ -51,6 +52,7 @@ function CoursePage(){
           <p className="text-gray-300 mb-6">{product?.description}</p>
           <h3 className="text-xl font-semibold mb-2">Course files:</h3>
           <ScrollArea className="h-40 w-full rounded border border-gray-700 p-4">
+            {/* Wczytywanie plikow pdf */}
             {/* {files.map((file, index) => (
               <div key={index} className="flex items-center mb-2">
                 <FileIcon className="mr-2 h-5 w-5 text-gray-400" />

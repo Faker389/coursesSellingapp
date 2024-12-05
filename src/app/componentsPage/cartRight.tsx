@@ -16,7 +16,6 @@ interface Cart{
 function RightBar(){
   const user = getCookies()
     const cartItems = Object.values(getCart(user.ID));
-    console.log(cartItems)
     const {setCartItemsCount} = useCartItemsCount()
   return <>
    <div className="flex justify-center mb-8 mt-12">
@@ -30,7 +29,6 @@ function RightBar(){
                <div key={item.id} className="flex items-center justify-between py-2 border-b border-gray-700">
                <Link href={`/cart/payment?productId=cart`} key={index}>
                 <div className="flex items-center">
-                  {/* <RenderImage src={item.image} width="80px" height="40px"/> */}
                 <Image src={item.image} alt={item.title} width={80} height={40} className="rounded mr-4" />
                   <span>{item.title}</span>
                 </div>
@@ -47,9 +45,9 @@ function RightBar(){
         </>
 }
 export default function CartRight() {
+  // Komponent tworzący i animujący koszyk
   const {cart, setCart} = useCartPosition()
   const {cookiesCrated} = useCookiesSet()
-  
   const sidebarVariants = {
     open: { x: 0 },
     closed: { x: '100%' },
